@@ -56,8 +56,9 @@ class restaurantDisplayState extends State<restaurantDisplay> {
   @override
   void initState() {
     super.initState();
+    print("text editing controller");
     _searchcontroller = TextEditingController();
-    searchRestaurants("", "init");
+//     searchRestaurants("", "init");
   }
 
   //Keyword based restaurnt display
@@ -121,69 +122,69 @@ class restaurantDisplayState extends State<restaurantDisplay> {
            ),
               
             //ListView widget
-              Container(
-                height: Mediaquery.of(context).size.height * 0.75,
-                child: Expanded(
-                child:  ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: restaurants.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: Mediaquery.of(context).size.width,
-                      height: 
-                      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
+//               Container(
+//                 height: Mediaquery.of(context).size.height * 0.75,
+//                 child: Expanded(
+//                 child:  ListView.builder(
+//                   shrinkWrap: true,
+//                   itemCount: restaurants.length,
+//                   itemBuilder: (context, index) {
+//                     return Container(
+//                       width: Mediaquery.of(context).size.width,
+//                       height: 
+//                       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+//                       child: Column(
+//                         children: [
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                             children: [
                               
-                              //restaurant logo/image 
-                              Container(
-                                height: 100.0,
-                                width: 100.0,
-                                margin: EdgeInsets.only(right:10.0),
-                                child: Image.network(restaurants[index].logoImage ?? "",
-                                  fit: BoxFit.fill,
-                                  loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null ? 
-                                             loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                                             : null,
-                                      ),
-                                    );
-                                  },
-                                )
-                             ),
+//                               //restaurant logo/image 
+//                               Container(
+//                                 height: 100.0,
+//                                 width: 100.0,
+//                                 margin: EdgeInsets.only(right:10.0),
+//                                 child: Image.network(restaurants[index].logoImage ?? "",
+//                                   fit: BoxFit.fill,
+//                                   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+//                                   if (loadingProgress == null) return child;
+//                                     return Center(
+//                                       child: CircularProgressIndicator(
+//                                       value: loadingProgress.expectedTotalBytes != null ? 
+//                                              loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+//                                              : null,
+//                                       ),
+//                                     );
+//                                   },
+//                                 )
+//                              ),
                               
-                              //restaurant name
-                              Flexible(
-                                child: Text(restaurants[index].title ??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
-                              ),
+//                               //restaurant name
+//                               Flexible(
+//                                 child: Text(restaurants[index].title ??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
+//                               ),
                               
-                              //restaurant rating
-                              Container(
-                                color: Colors.green,
-                                height: 40.0,
-                                width: 50.0,
-                                padding: EdgeInsets.all(7.0),
-                                child: Center(
-                                  child: Text(restaurants[index].rating.toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
-                                )
-                              )
+//                               //restaurant rating
+//                               Container(
+//                                 color: Colors.green,
+//                                 height: 40.0,
+//                                 width: 50.0,
+//                                 padding: EdgeInsets.all(7.0),
+//                                 child: Center(
+//                                   child: Text(restaurants[index].rating.toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
+//                                 )
+//                               )
                                    
-                            ]
-                          )
-                        ]  
-                      )
+//                             ]
+//                           )
+//                         ]  
+//                       )
                           
                           
-                    );
-                  },
-                )
-               )        
+//                     );
+//                   },
+//                 )
+//                )        
                           
                           
           ]
