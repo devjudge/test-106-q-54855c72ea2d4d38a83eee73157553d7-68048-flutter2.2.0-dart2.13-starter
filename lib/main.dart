@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
       // ignore: prefer_double_quotes
       title: 'Food Delivery',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
       // ignore: prefer_double_quotes
       home: const restaurantDisplay(),
     );
@@ -63,7 +63,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
     loadRestaurants();
   }
   
-  //To display restaurants initially
+  //To display restaurants initially (on init)
   void loadRestaurants() async{
     final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
     var responseData = json.decode(response.body);
@@ -75,13 +75,13 @@ class restaurantDisplayState extends State<restaurantDisplay> {
   
       //Adding restaurant to the list.
       setState((){
-        restaurants.add(user);
+        restaurants.add(r1);
       });
     }
   }
 
   //Keyword based restaurnt display
-  void searchRestaurants() async{
+  void searchRestaurants(keyword) async{
     final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=:keyword&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
     var responseData = json.decode(response.body);
     restaurants.clear();
@@ -93,7 +93,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
   
       //Adding restaurant to the list.
       setState((){
-        restaurants.add(user);
+        restaurants.add(r1);
       });
     }
   }
@@ -161,7 +161,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                 height: 100.0,
                                 width: 100.0,
                                 margin: EdgeInsets.only(right:10.0),
-                                child: Image.network(restaurants[index]['logoImage'],
+                                child: Image.network(restaurants[index].logoImage,
                                   fit: BoxFit.fill,
                                   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
@@ -178,7 +178,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                               
                               //restaurant name
                               Flexible(
-                                child: Text(restaurants[index]['title']??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
+                                child: Text(restaurants[index].title ??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
                               ),
                               
                               //restaurant rating
@@ -188,7 +188,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                 width: 50.0,
                                 padding: EdgeInsets.all(7.0),
                                 child: Center(
-                                  child: Text(restaurants[index]['rating'].toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
+                                  child: Text(restaurants[index].rating.toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
                                 )
                               )
                                    
