@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // ignore: prefer_double_quotes
-      home: const MyHomePage(),
+      home: const restaurantDisplay(),
     );
 }
 
@@ -142,7 +142,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
               
             //ListView widget
               Expanded(
-                child: ListView.builder(
+                child:  ListView.builder(
                   shrinkWrap: true,
                   itemCount: restaurants.length,
                   itemBuilder: (context, index) {
@@ -196,33 +196,12 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                           )
                         ]  
                       )
+                          
+                          
                     );
                   },
                 )
           ]
       ))
-    
-//     Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             const Text(
-//               // ignore: prefer_double_quotes
-//               'You have pushed the button this many times:',
-//             ),
-//             Text(
-//               // ignore: prefer_double_quotes
-//               '$_counter',
-//               style: Theme.of(context).textTheme.headline4,
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         // ignore: prefer_double_quotes
-//         tooltip: 'Increment',
-//         child: const Icon(Icons.add),
-//       ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+     );
 }
