@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // ignore: prefer_double_quotes
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
 }
 
@@ -80,6 +80,24 @@ class restaurantDisplayState extends State<restaurantDisplay> {
     }
   }
 
+  //Keyword based restaurnt display
+  void searchRestaurants() async{
+    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
+    var responseData = json.decode(response.body);
+    restaurants.clear();
+    for (var restaurant in responseData['results']) {
+      Restaurant r1 = Restaurant(
+          rating: restaurant["rating"],
+          title: restaurant["name"],
+          logoImage: restaurant["icon"]);
+  
+      //Adding restaurant to the list.
+      setState((){
+        restaurants.add(user);
+      });
+    }
+  }
+                                    
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
@@ -104,6 +122,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
               ),
               child:
                   TextField(
+                    key: ValueKey('edit_search'),
                     controller: _searchcontroller,
                     style: TextStyle(fontSize: 18.0, color: Colors.black),
                     onChanged: (content) {
