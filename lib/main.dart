@@ -60,29 +60,14 @@ class restaurantDisplayState extends State<restaurantDisplay> {
   void initState() {
     super.initState();
     _searchcontroller = TextEditingController();
-    loadRestaurants();
-  }
-  
-  //To display restaurants initially (on init)
-  void loadRestaurants() async{
-    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
-    var responseData = json.decode(response.body);
-    for (var restaurant in responseData['results']) {
-      Restaurant r1 = Restaurant(
-          rating: restaurant["rating"],
-          title: restaurant["name"],
-          logoImage: restaurant["icon"]);
-  
-      //Adding restaurant to the list.
-      setState((){
-        restaurants.add(r1);
-      });
-    }
+    searchRestaurants("", "init");
   }
 
   //Keyword based restaurnt display
-  void searchRestaurants(keyword) async{
-    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=:keyword&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
+  void searchRestaurants(keyword, from) async{
+    final response = await http.get(Uri.parse(from == "init" ? 
+                                              'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk' :
+                                              'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=${keyword}&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
     var responseData = json.decode(response.body);
     restaurants.clear();
     for (var restaurant in responseData['results']) {
@@ -111,34 +96,34 @@ class restaurantDisplayState extends State<restaurantDisplay> {
           children:[
             
             //textfield widget for search
-            Container(
-              width: Mediaquery.of(context).size.width,
-              height: 60.0,
-              margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
-              padding: EdgeInsets.all(10.0),
-              decoration: InputDecoration(
-                border: Border.all(color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.all(Radius.circular(20))
-              ),
-              child:
-                  TextField(
-                    key: ValueKey('edit_search'),
-                    controller: _searchcontroller,
-                    style: TextStyle(fontSize: 18.0, color: Colors.black),
-                    onChanged: (content) {
-                      searchRestaurants(content);
-                    },
-                    decoration: InputDecoration(  
-                      border: InputBorder.none,  
-                      prefixIcon: new Padding(
-                        padding: EdgeInsets.only(right: 15.0),
-                        child: Icon(Icons.search, size: 18.0, color: Colors.black.withOpacity(0.5))
-                      ),
-                      hintText: 'Search for restaurants, cuisines..',
-                      hintStyle:  TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.5))
-                  ),  
-            )
-           ),
+//             Container(
+//               width: Mediaquery.of(context).size.width,
+//               height: 60.0,
+//               margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
+//               padding: EdgeInsets.all(10.0),
+//               decoration: InputDecoration(
+//                 border: Border.all(color: Colors.black.withOpacity(0.5),
+//                 borderRadius: BorderRadius.all(Radius.circular(20))
+//               ),
+//               child:
+//                   TextField(
+//                     key: ValueKey('edit_search'),
+//                     controller: _searchcontroller,
+//                     style: TextStyle(fontSize: 18.0, color: Colors.black),
+//                     onChanged: (content) {
+//                       searchRestaurants(content, "onSearch");
+//                     },
+//                     decoration: InputDecoration(  
+//                       border: InputBorder.none,  
+//                       prefixIcon: new Padding(
+//                         padding: EdgeInsets.only(right: 15.0),
+//                         child: Icon(Icons.search, size: 18.0, color: Colors.black.withOpacity(0.5))
+//                       ),
+//                       hintText: 'Search for restaurants, cuisines..',
+//                       hintStyle:  TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.5))
+//                   ),  
+//             )
+//            ),
               
             //ListView widget
               Expanded(
@@ -201,6 +186,9 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                     );
                   },
                 )
+                          
+                          
+                          
           ]
       ))
      );
