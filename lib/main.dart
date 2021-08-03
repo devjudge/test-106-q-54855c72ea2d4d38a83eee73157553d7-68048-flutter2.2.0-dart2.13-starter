@@ -26,9 +26,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
       // ignore: prefer_double_quotes
       title: 'Food Delivery',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
       // ignore: prefer_double_quotes
       home: const restaurantDisplay(),
     );
@@ -85,9 +82,6 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                     
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Container(
         height: Mediaquery.of(context).size.height,
         width: Mediaquery.of(context).size.width,
@@ -126,7 +120,9 @@ class restaurantDisplayState extends State<restaurantDisplay> {
 //            ),
               
             //ListView widget
-              Expanded(
+              Container(
+                height: Mediaquery.of(context).size.height * 0.75,
+                child: Expanded(
                 child:  ListView.builder(
                   shrinkWrap: true,
                   itemCount: restaurants.length,
@@ -186,7 +182,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                     );
                   },
                 )
-                          
+               )        
                           
                           
           ]
