@@ -17,6 +17,18 @@ void main() {
   runApp(MyApp());
 }
 
+class Restaurant {
+  final double rating;
+  final String title;
+  final String logoImage;
+  
+  Restaurant({
+    this.rating,
+    this.title,
+    this.logoImage,
+  });
+}
+
 /// The MyApp Class
 // ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
