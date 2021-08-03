@@ -82,7 +82,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
 
   //Keyword based restaurnt display
   void searchRestaurants() async{
-    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
+    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=:keyword&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
     var responseData = json.decode(response.body);
     restaurants.clear();
     for (var restaurant in responseData['results']) {
@@ -143,6 +143,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
             //ListView widget
               Expanded(
                 child: ListView.builder(
+                  shrinkWrap: true,
                   itemCount: restaurants.length,
                   itemBuilder: (context, index) {
                     return Container(
