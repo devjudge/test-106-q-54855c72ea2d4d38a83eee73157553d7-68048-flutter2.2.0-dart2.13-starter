@@ -58,7 +58,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
     super.initState();
     print("text editing controller");
     _searchcontroller = TextEditingController();
-//     searchRestaurants("", "init");
+    searchRestaurants("", "init");
   }
 
   //Keyword based restaurnt display
