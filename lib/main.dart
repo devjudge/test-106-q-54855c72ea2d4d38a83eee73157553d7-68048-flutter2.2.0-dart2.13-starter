@@ -82,7 +82,8 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                     
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: Container(
+      body: SafeArea(
+        child: Container(
         height: Mediaquery.of(context).size.height,
         width: Mediaquery.of(context).size.width,
         child: Column(
@@ -90,34 +91,34 @@ class restaurantDisplayState extends State<restaurantDisplay> {
           children:[
             
             //textfield widget for search
-//             Container(
-//               width: Mediaquery.of(context).size.width,
-//               height: 60.0,
-//               margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
-//               padding: EdgeInsets.all(10.0),
-//               decoration: InputDecoration(
-//                 border: Border.all(color: Colors.black.withOpacity(0.5),
-//                 borderRadius: BorderRadius.all(Radius.circular(20))
-//               ),
-//               child:
-//                   TextField(
-//                     key: ValueKey('edit_search'),
-//                     controller: _searchcontroller,
-//                     style: TextStyle(fontSize: 18.0, color: Colors.black),
-//                     onChanged: (content) {
-//                       searchRestaurants(content, "onSearch");
-//                     },
-//                     decoration: InputDecoration(  
-//                       border: InputBorder.none,  
-//                       prefixIcon: new Padding(
-//                         padding: EdgeInsets.only(right: 15.0),
-//                         child: Icon(Icons.search, size: 18.0, color: Colors.black.withOpacity(0.5))
-//                       ),
-//                       hintText: 'Search for restaurants, cuisines..',
-//                       hintStyle:  TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.5))
-//                   ),  
-//             )
-//            ),
+            Container(
+              width: Mediaquery.of(context).size.width,
+              height: 60.0,
+              margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
+              padding: EdgeInsets.all(10.0),
+              decoration: InputDecoration(
+                border: Border.all(color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.all(Radius.circular(20))
+              ),
+              child:
+                  TextField(
+                    key: ValueKey('edit_search'),
+                    controller: _searchcontroller,
+                    style: TextStyle(fontSize: 18.0, color: Colors.black),
+                    onChanged: (content) {
+                      searchRestaurants(content, "onSearch");
+                    },
+                    decoration: InputDecoration(  
+                      border: InputBorder.none,  
+                      prefixIcon: new Padding(
+                        padding: EdgeInsets.only(right: 15.0),
+                        child: Icon(Icons.search, size: 18.0, color: Colors.black.withOpacity(0.5))
+                      ),
+                      hintText: 'Search for restaurants, cuisines..',
+                      hintStyle:  TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.5))
+                  ),  
+            )
+           ),
               
             //ListView widget
               Container(
@@ -142,7 +143,7 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                 height: 100.0,
                                 width: 100.0,
                                 margin: EdgeInsets.only(right:10.0),
-                                child: Image.network(restaurants[index].logoImage,
+                                child: Image.network(restaurants[index].logoImage ?? "",
                                   fit: BoxFit.fill,
                                   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
@@ -186,6 +187,6 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                           
                           
           ]
-      ))
+      )))
      );
 }
