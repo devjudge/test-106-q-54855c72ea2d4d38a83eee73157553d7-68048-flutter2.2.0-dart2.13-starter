@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_driver/driver_extension.dart';
 //to  make http requests
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   // IMPORTANT: Uncomment the line `enableFlutterDriverExtension();`
   // before making a submission. 
   //Failure in doing so will not execute the automated testcases.
 
-  // enableFlutterDriverExtension();
+  enableFlutterDriverExtension();
   runApp(MyApp());
 }
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
       // ignore: prefer_double_quotes
-      title: 'Flutter Demo',
+      title: 'Food Delivery',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -33,38 +34,50 @@ class MyApp extends StatelessWidget {
     );
 }
 
-/// The Homepage Class
-class MyHomePage extends StatefulWidget {
-
-  /// Title member variable
-  // ignore: diagnostic_describe_all_properties
+class Restaurant {
+  final double rating;
   final String title;
+  final String logoImage;
   
-  /// Constructor
-  // ignore: sort_constructors_first
-  const MyHomePage({required this.title, Key? key}) : super(key: key);
-
-  
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+  Restaurant({
+    this.rating,
+    this.title,
+    this.logoImage,
+  });
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-//   int _counter = 0;
+/// The Homepage Class
+class restaurantDisplay extends StatefulWidget {
+  @override
+  restaurantDisplayState createState() => restaurantDisplayState();
+}
 
-//   void _incrementCounter() {
-//     setState(() {
-//       _counter++;
-//     });
-//   }
-  
+class restaurantDisplayState extends State<restaurantDisplay> {  
     late TextEditingController _searchcontroller;
+    List<Restaurant> restaurants = [];
 
   @override
   void initState() {
     super.initState();
     _searchcontroller = TextEditingController();
+    loadRestaurants();
+  }
+  
+  //To display restaurants initially
+  void loadRestaurants() async{
+    final response = await http.get(Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
+    var responseData = json.decode(response.body);
+    for (var restaurant in responseData['results']) {
+      Restaurant r1 = Restaurant(
+          rating: restaurant["rating"],
+          title: restaurant["name"],
+          logoImage: restaurant["icon"]);
+  
+      //Adding restaurant to the list.
+      setState((){
+        restaurants.add(user);
+      });
+    }
   }
 
   @override
@@ -111,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //ListView widget
               Expanded(
                 child: ListView.builder(
-                  itemCount: items.length,
+                  itemCount: restaurants.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: Mediaquery.of(context).size.width,
@@ -122,11 +135,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              
                               //restaurant logo/image 
                               Container(
                                 height: 100.0,
                                 width: 100.0,
-                                child: Image.network(imgURL,
+                                margin: EdgeInsets.only(right:10.0),
+                                child: Image.network(restaurants[index]['logoImage'],
                                   fit: BoxFit.fill,
                                   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
                                   if (loadingProgress == null) return child;
@@ -143,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               
                               //restaurant name
                               Flexible(
-                                child: Text("", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
+                                child: Text(restaurants[index]['title']??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
                               ),
                               
                               //restaurant rating
@@ -153,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 width: 50.0,
                                 padding: EdgeInsets.all(7.0),
                                 child: Center(
-                                  child: Text("4.0", style: TextStyle(color: Colors.white, fontSize: 18.0)
+                                  child: Text(restaurants[index]['rating'].toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
                                 )
                               )
                                    
