@@ -23,9 +23,9 @@ class Restaurant {
   final String logoImage;
   
   Restaurant({
-    this.rating,
-    this.title,
-    this.logoImage,
+    required this.rating,
+    required this.title,
+    required this.logoImage,
   });
 }
 
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       // ignore: prefer_double_quotes
       title: 'Food Delivery',
       // ignore: prefer_double_quotes
-      home: const restaurantDisplay(),
+      home: restaurantDisplay(),
     );
 }
 
@@ -65,8 +65,8 @@ class restaurantDisplayState extends State<restaurantDisplay> {
   //Keyword based restaurnt display
   void searchRestaurants(keyword, from) async{
     final response = await http.get(Uri.parse(from == "init" ? 
-                                              'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk' :
-                                              'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=${keyword}&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk');
+                        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk' :
+                        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=47.6204,-122.3491&radius=2500&type=restaurant&keyword=${keyword}&key=AIzaSyDxVclNSQGB5WHAYQiHK-VxYKJelZ_9mjk'));
     var responseData = json.decode(response.body);
     restaurants.clear();
     for (var restaurant in responseData['results']) {
@@ -84,23 +84,21 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                     
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: SafeArea(
-        padding: EdgeInsets.all(5.0),
-        child: Container(
-        height: Mediaquery.of(context).size.height,
-        width: Mediaquery.of(context).size.width,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start.
-          children:[
-            
+          mainAxisAlignment: MainAxisAlignment.start,
+          children :[
+
             //textfield widget for search
             Container(
-              width: Mediaquery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
               height: 60.0,
               margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
               padding: EdgeInsets.all(10.0),
-              decoration: InputDecoration(
-                border: Border.all(color: Colors.black.withOpacity(0.5),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black.withOpacity(0.5)),
                 borderRadius: BorderRadius.all(Radius.circular(20))
               ),
               child:
@@ -125,15 +123,15 @@ class restaurantDisplayState extends State<restaurantDisplay> {
               
             //ListView widget
               Container(
-                height: Mediaquery.of(context).size.height * 0.75,
+                height: MediaQuery.of(context).size.height * 0.75,
                 child: Expanded(
                 child:  ListView.builder(
                   shrinkWrap: true,
                   itemCount: restaurants.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      width: Mediaquery.of(context).size.width,
-                      height: 
+                      width: MediaQuery.of(context).size.width,
+                      height: 150.0,
                       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                       child: Column(
                         children: [
@@ -146,24 +144,24 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                 height: 100.0,
                                 width: 100.0,
                                 margin: EdgeInsets.only(right:10.0),
-                                child: Image.network(restaurants[index].logoImage ?? "",
+                                child: Image.network(restaurants[index].logoImage,
                                   fit: BoxFit.fill,
-                                  loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null ? 
-                                             loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                                             : null,
-                                      ),
-                                    );
-                                  },
+//                                  loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+//                                  if (loadingProgress == null) return child;
+//                                    return Center(
+//                                      child: CircularProgressIndicator(
+//                                      value: loadingProgress.expectedTotalBytes != null ?
+//                                             loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+//                                             : null,
+//                                      ),
+//                                    );
+//                                  },
                                 )
                              ),
                               
                               //restaurant name
                               Flexible(
-                                child: Text(restaurants[index].title ??"", style: TextStyle(fontSize: 21.0, color: Colors.black, fontweight: FontWeight.bold))
+                                child: Text(restaurants[index].title, style: TextStyle(fontSize: 21.0, color: Colors.black, fontWeight: FontWeight.bold))
                               ),
                               
                               //restaurant rating
@@ -173,8 +171,8 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                                 width: 50.0,
                                 padding: EdgeInsets.all(7.0),
                                 child: Center(
-                                  child: Text(restaurants[index].rating.toString() ?? "", style: TextStyle(color: Colors.white, fontSize: 18.0)
-                                )
+                                  child: Text(restaurants[index].rating.toString(), style: TextStyle(color: Colors.white, fontSize: 18.0)
+                                ))
                               )
                                    
                             ]
@@ -186,10 +184,10 @@ class restaurantDisplayState extends State<restaurantDisplay> {
                     );
                   },
                 )
-               )        
+               )   )
                           
                           
           ]
-      )))
-     );
+      )
+     ));
 }
